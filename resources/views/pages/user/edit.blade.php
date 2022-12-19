@@ -74,7 +74,7 @@
                                 <label for="">Photo</label>
                                 <input type="file" name="image" class="form-control-file">
                                 @if ($user->photo)
-                                    <img src="{{ asset('/storage/profile/' . $user->photo) }}" alt="" height="100">
+                                    <img src="{{ asset('storage/profile/' . $user->photo) }}" alt="" height="100">
                                 @endif
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>

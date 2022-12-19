@@ -52,7 +52,7 @@
                                 </tr>
                                 <tr>
                                     <th>Photo</th>
-                                    <td><img width="350" src="{{ asset('/storage/profile/' . $user->photo) }}" alt=""></td>
+                                    <td><img width="350" src="{{ asset('storage/profile/' . $user->photo) }}" alt=""></td>
                                 </tr>
                             </tbody>
                         </table>
