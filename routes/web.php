@@ -24,5 +24,5 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('home', [HomeController::class, 'index'])->name('home');
 
-Route::resource('user', [UserController::class, 'index']);
-Route::resource('attendance', [AttendanceController::class,])->only(['index', 'show']);
+Route::resource('user', UserController::class);
+Route::resource('attendance', AttendanceController::class)->only(['index', 'show']);
