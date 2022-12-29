@@ -79,7 +79,7 @@
                 {data: 'DT_RowIndex', name: 'id'},
                 {data: 'user.name', name: 'user.name'},
                 {data: function(row) {
-                    return row.status ? "Check Out" : "Check In"
+                    return row.status === "1" ? "Check Out" : "Check In"
                 }, name: 'status'},
                 {data: function(row) {
                     let date = new Date(row.created_at);
