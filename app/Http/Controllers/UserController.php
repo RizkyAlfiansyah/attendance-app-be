@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Traits\ImageStorage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -139,13 +140,28 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        DB::beginTransaction();
 
-        if ($user->photo) {
-            $this->deleteImage($user->photo, 'profile');
+        try {
+            $user = User::find($id);
+
+            if ($user->photo)
+                $this->deleteImage($user->photo, 'profile');
+
+            foreach ($user->attendances()->get() as $attendance) {
+                foreach ($attendance->detail()->get() as $attendanceDetail) {
+                    $attendanceDetail->delete();
+                }
+
+                $attendance->delete();
+            }
+
+            $user->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $user->delete();
 
         return redirect()->route('user.index');
     }
