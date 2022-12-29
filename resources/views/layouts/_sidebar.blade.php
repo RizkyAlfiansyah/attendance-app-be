@@ -32,7 +32,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/attendance') }}" class="nav-link {{ request()->segment(1) == 'attendance' ? 'active' : '' }}">
+                <a href="{{ url('/reports') }}" class="nav-link {{ request()->segment(1) == 'reports' ? 'active' : '' }}">
                     <i class="nav-icon far fa-calendar-alt"></i>
                     <p>
                         Reports
