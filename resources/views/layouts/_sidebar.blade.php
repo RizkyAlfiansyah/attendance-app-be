@@ -32,6 +32,14 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ url('/attendance') }}" class="nav-link {{ request()->segment(1) == 'attendance' ? 'active' : '' }}">
+                    <i class="nav-icon far fa-calendar-alt"></i>
+                    <p>
+                        Reports
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ url('/user') }}" class="nav-link {{ request()->segment(1) == 'user' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>
