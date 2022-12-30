@@ -31,14 +31,14 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{ url('/reports') }}" class="nav-link {{ request()->segment(1) == 'reports' ? 'active' : '' }}">
                     <i class="nav-icon far fa-calendar-alt"></i>
                     <p>
                         Reports
                     </p>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a href="{{ url('/user') }}" class="nav-link {{ request()->segment(1) == 'user' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
