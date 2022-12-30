@@ -34,8 +34,18 @@
                 </div>
                 @endif
 
-                <!-- Attendance Chart -->
                 <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary mb-2">Add</a>
+                <hr>
+                <div class="form-group">
+                    <h5>Filter User's Recap by Date Range</h5>
+
+                    <label>Date Start</label>
+                    <input type="date" name="range_start" class="form-control col-md-4 m-2">
+
+                    <label>Date End</label>
+                    <input type="date" name="range_end" class="form-control col-md-4 m-2">
+                </div>
+                <hr>
 
                 <div class="card">
                     <div class="card-header">
@@ -53,7 +63,7 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>E-Mail</th>
-                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -84,6 +94,45 @@
                 {data: 'email', name: 'email'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
             ]
+        });
+
+        let startDate = null;
+        let endDate = null;
+
+        let recapUrl = '{{ route("user.recap", "dummy") }}';
+
+        // on click class recap-button will trigger this function
+        $(document).on('click', '.recap-button', function(event) {
+            event.preventDefault();
+
+            let id = $(this).attr('href');
+            let url = recapUrl.replace('dummy', id);
+
+            // if date range is not null
+            if (startDate != null && endDate != null) {
+                if (startDate > endDate) {
+                alert('End date must be greater than start date');
+                return;
+            }
+
+                url += '?start=' + startDate + '&end=' + endDate;
+                // alert(url);
+
+                // redirect to recap page in new tab
+
+                window.open(url, '_blank');
+            } else {
+                alert('Please select date range first');
+            }
+
+        });
+
+        $('input[name="range_start"]').on('change', function() {
+            startDate = $(this).val();
+        });
+
+        $('input[name="range_end"]').on('change', function() {
+            endDate = $(this).val();
         });
     });
 </script>

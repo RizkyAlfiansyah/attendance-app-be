@@ -1,9 +1,16 @@
 <form action="{{ url($delete_url) }}" method="post">
     @csrf @method('DELETE')
+
+    @if (isset($recap))
+        <a href="{{ $recap['id'] }}" class="btn btn-sm btn-warning text-white recap-button">Recap</a>
+    @endif
+
     @if ($edit_url)
         <a href="{{ $edit_url }}" class="btn btn-sm btn-info text-white">Edit</a>
     @endif
+
     <a href="{{ $show_url }}" class="btn btn-sm btn-secondary">Show</a>
+
     @if ($delete_url)
     <button
     type="submit"

@@ -36,6 +36,9 @@ class UserController extends Controller
                 ->addColumn('action', function ($data) {
                     return view('layouts._action', [
                         'model' => $data,
+                        'recap' => [
+                            'id' => $data->id,
+                        ],
                         'edit_url' => route('user.edit', $data->id),
                         'show_url' => route('user.show', $data->id),
                         'delete_url' => route('user.destroy', $data->id),
@@ -81,37 +84,18 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $user = User::findOrFail($id);
         return view('pages.user.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $user = User::findOrFail($id);
         return view('pages.user.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
@@ -132,12 +116,6 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         DB::beginTransaction();
@@ -164,5 +142,30 @@ class UserController extends Controller
         }
 
         return redirect()->route('user.index');
+    }
+
+    public function recap(Request $request, $id)
+    {
+        $this->validate($request, [
+            'start' => 'required|date',
+            'end' => 'required|date',
+        ]);
+
+
+        $user = User::findOrFail($id);
+        $data = $user->attendances()
+            ->with('detail')
+            ->whereBetween(DB::raw('DATE(created_at)'), [$request->start, $request->end])
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+         $range = [
+            'start' => $request->start,
+            'end' => $request->end,
+        ];
+
+        $range = (object) $range;
+
+        return view('pages.user.recap', compact('data', 'user', 'range'));
     }
 }
